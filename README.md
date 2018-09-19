@@ -48,7 +48,8 @@ belongs_to :user
 
 
 ### Association
-accepts_nested_attributes_for :group_users
+belongs_to :user
+belongs_to :group
 
 
 
@@ -65,7 +66,8 @@ accepts_nested_attributes_for :group_users
 
 
 ### Association
-has_many :message
+has_many :users, through: :message_users
+has_many :message_users
 
 
 ## groupsテーブル
@@ -77,7 +79,9 @@ has_many :message
 
 
 ### Association
-- has_many :message
+has_many :groups, through: :message_groups
+has_many :message_groups
+
 
 
 
