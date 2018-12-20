@@ -1,42 +1,24 @@
-.body
-  .message-bar
-    %span.a チャットグループが作成されました。
-  .side-bar
-    .header-left
-      %span.ba seo
-      %span.bb
-        =fa_icon"cog"
-      %span.bc
-        =fa_icon"edit"
-    .groups
-      .group
-        %span.c sample
-        %span.d good by world
-  .chat
-    .header-light
-      .left-header-light
-        %span.e sample グループ
-        %span.f member: seo
-      .right-header-light
-        %span.g Edit
-    .messages
-      .message
-        %span.h seo
-        %span.i 2016/10/02 06:27:00
-        %span.j おはよう
-        %span.k Yuta
-        %span.l 2016/10/02 06:28:10
-        %span.m おはよう
-    .form
-      .form-left
-        %span.na type a messeage
-        %span.nb
-          =fa_icon"picture-o"
-      .form-light
-        %span.o send
+.chatspace
+  = render 'shared/side_bar'
 
-
-
-
-
-
+  .chat-main
+    .chat-header
+      .chat-header__left
+        %h2.group #{@group.name}
+        %p.user
+          member：
+          -@group.users.each do |user|
+            #{user.name},
+      .chat-header__right
+        = link_to "Edit", edit_group_path(@group), method: :get, class: 'edit-btn'
+    .chat-body
+      %ul.chat-contents
+        = render @messages
+    .chat-footer
+      = form_for [@group, @message], html: {class: 'msg_form'} do |f|
+        = f.hidden_field :user_id, value: "#{@message.user_id}"
+        = f.text_field :content, class: 'chat-footer__text', placeholder: 'type a message'
+        %label.form__mask
+          %i.fa.fa-picture-o
+          = f.file_field :image, class: 'hidden'
+        = f.submit 'Send', class: 'send'
