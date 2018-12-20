@@ -23,67 +23,56 @@ Things you may want to cover:
 
 * ...
 
-## membersテーブル
+## users テーブル
 
 |Column|Type|Options|
 |------|----|-------|
-|user_id|integer|null: false, foreign_key: true|
-|group_id|integer|null: false, foreign_key: true|
+|id|integer(11)|AI, PRIMARY_KEY|
+|name|varchar(255)|index: true, null: false, unique: true|
+|email|varchar(255)|null: false, unique: true|
 
 ### Association
-- belongs_to :group
-belongs_to :user
+- has_many group_users
+- has_many groups through group_users
+- has_many messages
 
-
-## messagesテーブル
+## messages テーブル
 
 |Column|Type|Options|
 |------|----|-------|
-|user_id|integer|null: false, foreign_key: true|
-|group_id|integer|null: false, foreign_key: true|
-|body|text|null: false|
-|image|string|
-|time|timestamps|null: false|
-
-
+|id|integer(11)|AI, PRIMARY_KEY|
+|content|varchar(255)|-------|
+|image|varchar(255)|-------|
+|group_id|reference|null: false, foreign_key: true|
+|user_id|reference|null: false, foreign_key: true|
 
 ### Association
-belongs_to :user
-belongs_to :group
+- belongs_to user
+- belongs_to group
 
-
-
-## usersテーブル
+## groups テーブル
 
 |Column|Type|Options|
 |------|----|-------|
-|user_id|integer|null: false, foreign_key: true|
-|group_id|integer|null: false, foreign_key: true|
-|name|text|null: false|
-|e-mil|text|null: false|
-
-
-
+|id|integer(11)|AI, PRIMARY_KEY|
+|name|varchar(255)|null:false|
 
 ### Association
-has_many :users, through: :message_users
-has_many :message_users
+- has_many messages
+- has_many group_users
+- has_many users through group_users
 
-
-## groupsテーブル
+## group_users テーブル
 
 |Column|Type|Options|
 |------|----|-------|
-|group_id|integer|null: false, foreign_key: true|
-|name|text|null: false|
+|id|integer(11)|AI, PRIMARY_KEY|
+|user_id|reference|null: false, foreign_key: true|
+|group_id|reference|null: false, foreign_key:true|
 
+### Association 中間テーブル
+- belongs_to user
+- belongs_to group
 
-### Association
-has_many :groups, through: :message_groups
-has_many :message_groups
-
-
-
-
-
-
+chat-sapceの画面です
+https://gyazo.com/4e39e9d91054b9f6825af23ceb014cc8
